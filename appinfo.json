@@ -1,0 +1,28 @@
+{
+    "appKeys": {
+        "cmd": 1,
+        "config": 0,
+        "menu": 3,
+        "status": 2
+    },
+    "capabilities": [
+        "configurable"
+    ],
+    "companyName": "charlie@vyse.me.uk",
+    "enableMultiJS": true,
+    "longName": "IF",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "IF",
+    "targetPlatforms": [
+        "chalk"
+    ],
+    "uuid": "4b016df2-93df-47ab-974f-b430b37ba26e",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
