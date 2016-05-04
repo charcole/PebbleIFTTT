@@ -6,6 +6,7 @@ static ActionMenuLevel *s_root_level;
 static TextLayer *text_layer;
 static int numNames=0;
 static char *names[256], *keys[256];
+static bool bRejiggingMenu=false;
 
 enum
 {
@@ -79,15 +80,18 @@ static void init_action_menu()
 
 static void ActionMenuDidClose(ActionMenu *menu, const ActionMenuItem *performed_action, void *context)
 {
-  if (performed_action==NULL)
-    window_stack_pop_all(true);
+  if (!bRejiggingMenu && performed_action==NULL)
+    window_stack_remove(window, true);
 }
 
 static void open_action_menu()
 {
   if (s_action_menu)
   {
+    bRejiggingMenu=true;
     action_menu_close(s_action_menu, false);
+    bRejiggingMenu=false;
+    s_action_menu=NULL;
   }
   if (numNames)
   {
@@ -146,6 +150,8 @@ static void SetupMenu()
   for (int i=0; i<numNames; i++)
   {
     free(names[i]);
+    names[i]=NULL;
+    keys[i]=NULL;
   }
   numNames=0;
   for (int i=0; i<numSlots; i++)
@@ -217,6 +223,13 @@ static void in_received_handler(DictionaryIterator *received, void *context) {
       offset+=origLength+1;
     }
     persist_write_int(0, num);
+    if (s_action_menu)
+    {
+      bRejiggingMenu=true;
+      action_menu_close(s_action_menu, false);
+      bRejiggingMenu=false;
+      s_action_menu=NULL;
+    }
     SetupMenu();
   }
 }
