@@ -10,14 +10,23 @@
     ],
     "companyName": "charlie@vyse.me.uk",
     "enableMultiJS": true,
-    "longName": "IF",
+    "longName": "IFTTT Client",
     "projectType": "native",
     "resources": {
-        "media": []
+        "media": [
+            {
+                "file": "images/ifttt",
+                "menuIcon": true,
+                "name": "IMAGE_LOGO",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            }
+        ]
     },
     "sdkVersion": "3",
     "shortName": "IF",
     "targetPlatforms": [
+        "basalt",
         "chalk"
     ],
     "uuid": "4b016df2-93df-47ab-974f-b430b37ba26e",
