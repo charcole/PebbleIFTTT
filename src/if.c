@@ -41,10 +41,46 @@ static void init_action_menu()
   }
   
   s_root_level = action_menu_level_create(numNames);
+  int depth=0;
+  ActionMenuLevel *level[32];
+  level[0]=s_root_level;
   for (int i=0; i<numNames; i++)
   {
-    action_menu_level_add_action(s_root_level, names[i], action_performed_callback, (void*)keys[i]);
+    if (keys[i])
+    {
+      action_menu_level_add_action(level[depth], names[i], action_performed_callback, (void*)keys[i]);
+    }
+    else
+    {
+      bool isBlank=true;
+      int k=0;
+      while (names[i][k])
+      {
+        if (names[i][k]!=' ' && names[i][k]!='\t')
+        {
+          isBlank=false;
+          break;
+        }
+        k++;
+      }
+      if (isBlank)
+      {
+        if (depth>0)
+          depth--;
+      }
+      else if (depth<(int)(sizeof(level)/sizeof(level[0])))
+      {
+        level[++depth]=action_menu_level_create(numNames-1-i);
+        action_menu_level_add_child(level[depth-1], level[depth], names[i]);
+      }
+    }
   }
+}
+
+static void ActionMenuDidClose(ActionMenu *menu, const ActionMenuItem *performed_action, void *context)
+{
+  if (performed_action==NULL)
+    window_stack_pop_all(true);
 }
 
 static void open_action_menu()
@@ -62,7 +98,8 @@ static void open_action_menu()
         .background = PBL_IF_COLOR_ELSE(GColorChromeYellow, GColorWhite),
         .foreground = GColorBlack,
       },
-      .align = ActionMenuAlignCenter
+      .align = ActionMenuAlignCenter,
+      .did_close = ActionMenuDidClose
     };
     s_action_menu = action_menu_open(&config);
   }
@@ -123,12 +160,8 @@ static void SetupMenu()
     {
       sep[0]=0;
       keys[numNames]=sep+1;
-      numNames++;
     }
-    else
-    {
-      free(names[numNames]);
-    }
+    numNames++;
   }
   if (text_layer)
   {
