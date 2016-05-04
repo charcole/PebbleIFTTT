@@ -33,14 +33,18 @@
       <div class='item-container-content'>
         <label class='item'>
           Menu Configuration<br>
-          <textarea rows="8" cols="100%" form="area" id="menu">
-Sitting Room Lights Off:lightsoff
-Sitting Room Lights On:lightson
-          </textarea>
+          <textarea rows="8" cols="100%" form="area" id="menu">Name to appear in menu:YourIFTTTMakerEventName
+Sub Menu
+Pick A:testa
+Pick B:testb
+
+Another Sub Menu
+Pick A:testc
+Pick B:testd</textarea>
         </label>
       </div>
       <div class='item-container-footer'>
-        Each line should contain [Item Text]:[IFTTT Maker Event Name]. Add as many as you like.
+        IFTTT events to appear in menu are specified as [Item Text]:[IFTTT Maker Event Name]. Add as many as you like. Sub menus can be made by adding the name of the sub menu on its own line. Everything will appear under that sub menu until the next empty line. You can nest multiple sub menus using this approach.
       </div>
     </div>
 
